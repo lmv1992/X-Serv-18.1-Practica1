@@ -23,29 +23,19 @@ class acortador(webapp.webApp):
 				for index, row in enumerate(reader):
 					self.DiccURL[row[0]] =row[1]
 					self.DiccNum[row[1]] = row[0]
-				print "***"
-				print "Llenado de Dics:"
-				print "***"
-				print "***"
-				print self.DiccURL
-				print "***"
-				print "***"
-				print "\n"
-				print "***"
-				print "***"
-				print self.DiccNum
-				print "***"
-				print "***"
 			if recurso == '/':
 				httpCode = '200 OK'
 				htmlBody = '<html><body>'
 				htmlBody += '<form method="POST" action="">'
 				htmlBody += '<input type = "text" name="ULRs">'
-				htmlBody += '<input type ="submit" value="Enviar">'
+				htmlBody += '<input type ="submit" value="Enviar">'	
+				for num in self.DiccNum:
+					htmlBody += '<p>'+self.DiccNum[num]+' : '+num+'</p>'			
 				htmlBody += '</form></body></html>'
 			else:
 				if recurso[1:] in self.DiccNum:
-					httpCode = '302 Found\r\nLocation: '+ self.DiccNum[recurso[1:]]
+					print recurso[1:]
+					httpCode = '302 Found\r\nLocation: '+self.DiccNum[recurso[1:]]
 					htmlBody = " "
 				else:
 					httpCode = '404 Not Found'
@@ -72,3 +62,4 @@ class acortador(webapp.webApp):
 		return (httpCode, htmlBody)  
 if __name__ == "__main__":
 	main = acortador("localhost", 1234)
+
